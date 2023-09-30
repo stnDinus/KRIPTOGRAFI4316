@@ -17,10 +17,12 @@ string encrypt(string input) {
                input[i] > 122) {
       cerr << "pastikan input hanya berisi huruf alphabet!" << endl;
       exit(1);
-    } else if (input[i] == 'j') {
-      input[i] = 'i';
     } else if (input[i] < 97) {
       input[i] += 32;
+    }
+
+    if (input[i] == 'j') {
+      input[i] = 'i';
     }
 
     i++;
