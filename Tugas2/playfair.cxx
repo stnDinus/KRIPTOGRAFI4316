@@ -74,3 +74,34 @@ string encrypt(string input) {
 
   return input;
 }
+
+string decrypt(string input) {
+  for (int i = 1; i < input.length(); i += 2) {
+    int ly_idx, lx_idx, ry_idx, rx_idx;
+
+    for (int y = 0; y < 5; y++) {
+      for (int x = 0; x < 5; x++) {
+        if (input[i] == matriks_enkripsi[y][x]) {
+          ry_idx = y;
+          rx_idx = x;
+        } else if (input[i - 1] == matriks_enkripsi[y][x]) {
+          ly_idx = y;
+          lx_idx = x;
+        }
+      }
+    }
+
+    if (ly_idx == ry_idx) {
+      input[i] = matriks_enkripsi[ry_idx][(rx_idx - 1) % 5];
+      input[i - 1] = matriks_enkripsi[ly_idx][(lx_idx - 1) % 5];
+    } else if (lx_idx == rx_idx) {
+      input[i] = matriks_enkripsi[(ry_idx - 1) % 5][rx_idx];
+      input[i - 1] = matriks_enkripsi[(ly_idx - 1) % 5][lx_idx];
+    } else {
+      input[i] = matriks_enkripsi[ry_idx][lx_idx];
+      input[i - 1] = matriks_enkripsi[ly_idx][rx_idx];
+    }
+  }
+
+  return input;
+}
