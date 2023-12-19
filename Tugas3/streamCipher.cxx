@@ -82,6 +82,9 @@ vector<bool> generateKeystream() {
   return keystream;
 }
 
+/**
+ * menggabungkan boolean bit terpangkas menjadi sebuah string
+ */
 string stringifyKeystream(vector<bool> keystream) {
   string keystreamString;
   for (int i = 0; i < keystream.size();) {
