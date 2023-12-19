@@ -80,19 +80,22 @@ public:
    */
   static void sanitize_string(string *s) {
     for (int i = 0; i < s->length(); i++) {
-      if (97 <= (*s)[i] && (*s)[i] <= 122) {
-        if ((*s)[i] == 'j') {
-          (*s)[i] = 'i';
-        }
+      // substitute j/J with i
+      if ((*s)[i] == 'J' || (*s)[i] == 'j') {
+        (*s)[i] = 'i';
         continue;
       }
 
       // if upper, to lower
       if (65 <= (*s)[i] && (*s)[i] <= 90) {
         (*s)[i] += 32;
-      } else {
+        continue;
+      }
+
+      if (97 > (*s)[i] || (*s)[i] > 122) {
         s->erase(i, 1);
         i--;
+        continue;
       }
     }
   }
