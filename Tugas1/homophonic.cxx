@@ -21,6 +21,15 @@ using namespace std;
 class Homophonic {
   unordered_map<char, int[4]> table;
 
+  char get_on_row(int row, int i) {
+    for (int j = 0; j < 25; j++) {
+      if (table[j + 97][row] == i) {
+        return j + 97;
+      }
+    }
+    return ' ';
+  };
+
 public:
   char key[4];
 
@@ -73,6 +82,24 @@ public:
       cipher[i] = table[plaintext[i]][rand() % 4];
     }
     return cipher;
+  }
+
+  string decrypt(vector<int> cipher) {
+    string plaintext;
+
+    for (int i : cipher) {
+      if (i <= 25) {
+        plaintext.push_back(get_on_row(0, i));
+      } else if (i <= 50) {
+        plaintext.push_back(get_on_row(1, i));
+      } else if (i <= 75) {
+        plaintext.push_back(get_on_row(2, i));
+      } else {
+        plaintext.push_back(get_on_row(3, i));
+      }
+    }
+
+    return plaintext;
   }
 
   /**
