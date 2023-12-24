@@ -26,6 +26,19 @@ class BlockCipher {
     return key_string;
   }
 
+  vector<bool> string_to_bools(string input) {
+    vector<bool> bools;
+    for (int i = input.size() - 1; i >= 0; i--) {
+      for (int _j = 0; _j < sizeof(input[i]); _j++) {
+        for (int _k = 0; _k < 8; _k++) {
+          bools.insert(bools.begin(), input[i] & 0b00000001);
+          input[i] >>= 1;
+        }
+      }
+    }
+    return bools;
+  }
+
 public:
   bool key[4];
 
