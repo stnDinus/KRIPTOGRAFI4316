@@ -40,6 +40,21 @@ public:
 
     return bools_to_str(plaintext_bools);
   }
+
+  string decrypt(string ciphertext) {
+    vector<bool> expanded_key =
+        expand_key(ciphertext.length() * sizeof(ciphertext[0]) * 8);
+    vector<bool> ciphertext_bools = str_to_bools(ciphertext);
+
+    shift_left_4(&ciphertext_bools);
+
+    // xor
+    for (int i = 0; i < ciphertext_bools.size(); i++) {
+      ciphertext_bools[i] = expanded_key[i] != ciphertext_bools[i];
+    }
+
+    return bools_to_str(ciphertext_bools);
+  }
 };
 
 string bools_to_str(vector<bool> bools) {

@@ -29,5 +29,19 @@ int main(int argc, char *argv[]) {
     cout << endl;
   }
 
+  // DECRYPT
+  if (args.contains("-d")) {
+    cout << format("- Cipher:\n\"{}\"\n", args["-d"]) << endl;
+
+    string plaintext = bc_instance.decrypt(args["-d"]);
+
+    cout << "- Plaintext:\n";
+    for (int i = 0; i < plaintext.size(); i++) {
+      unsigned char c = plaintext[i];
+      cout << format("{:0>8b} ", c);
+    }
+    cout << endl;
+  }
+
   return 0;
 }
