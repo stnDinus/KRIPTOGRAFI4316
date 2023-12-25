@@ -5,6 +5,7 @@ using namespace std;
 
 string bools_to_str(vector<bool> bools);
 vector<bool> str_to_bools(string input);
+void xor_bools(vector<bool> *lhs, vector<bool> *rhs);
 void shift_right_4(vector<bool> *bools);
 void shift_left_4(vector<bool> *bools);
 
@@ -31,11 +32,7 @@ public:
         expand_key(plaintext.length() * sizeof(plaintext[0]) * 8);
     vector<bool> plaintext_bools = str_to_bools(plaintext);
 
-    // xor
-    for (int i = 0; i < plaintext_bools.size(); i++) {
-      plaintext_bools[i] = expanded_key[i] != plaintext_bools[i];
-    }
-
+    xor_bools(&plaintext_bools, &expanded_key);
     shift_right_4(&plaintext_bools);
 
     return bools_to_str(plaintext_bools);
@@ -47,11 +44,7 @@ public:
     vector<bool> ciphertext_bools = str_to_bools(ciphertext);
 
     shift_left_4(&ciphertext_bools);
-
-    // xor
-    for (int i = 0; i < ciphertext_bools.size(); i++) {
-      ciphertext_bools[i] = expanded_key[i] != ciphertext_bools[i];
-    }
+    xor_bools(&ciphertext_bools, &expanded_key);
 
     return bools_to_str(ciphertext_bools);
   }
@@ -82,6 +75,12 @@ vector<bool> str_to_bools(string input) {
     }
   }
   return bools;
+}
+
+void xor_bools(vector<bool> *lhs, vector<bool> *rhs) {
+  for (int i = 0; i < lhs->size(); i++) {
+    (*lhs)[i] = (*lhs)[i] != (*rhs)[i];
+  }
 }
 
 void shift_right_4(vector<bool> *bools) {
