@@ -1,9 +1,10 @@
 # Tugas Kriptografi
 Untuk versi terbaru, cek [repository github](https://github.com/stnDinus/KRIPTOGRAFI4316)
 
-### Pengembang
+### Biodata
 - Nama: Lie, Steven Staria Nugraha
 - NIM: A11.2022.14433
+- Kelompok: A11.4316
 
 ### Daftar Isi
 1. Tugas1: Homophonic cipher
