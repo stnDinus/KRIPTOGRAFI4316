@@ -1,20 +1,19 @@
 #include <iostream>
 #include <string>
 
+#include "./parse_args.cxx"
 #include "playfair.hxx"
 
 int main(int argc, char *argv[]) {
-  if (argc != 2) {
-    std::cout << "masukan argumen!" << std::endl;
-    exit(1);
+  parse_args(argc, argv);
+
+  if (args.contains("-e")) {
+    cout << "- Plaintext:\n" << args["-e"] << "\n\n";
+    cout << "- Ciphertext:\n" << encrypt(args["-e"]) << endl;
+  } else if (args.contains("-d")) {
+    cout << "- Ciphertext:\n" << args["-d"] << "\n\n";
+    cout << "- Plaintext:\n" << decrypt(args["-d"]) << endl;
   }
-
-  std::string encrypted = encrypt(argv[1]);
-  std::string dencrypted = decrypt(encrypted);
-
-  std::cout << argv[1] << std::endl;
-  std::cout << encrypted << std::endl;
-  std::cout << dencrypted << std::endl;
 
   return 0;
 }
