@@ -97,7 +97,7 @@ vector<bool> generateKeystream() {
  */
 string stringifyKeystream(vector<bool> keystream) {
   string keystreamString;
-  for (int i = 0; i < keystream.size();) {
+  for (int i = 0; i < keystream.size(); i += 8) {
     unsigned char c = 0b0;
 
     for (int i2 = 0; i2 < 8; i2++) {
@@ -107,8 +107,6 @@ string stringifyKeystream(vector<bool> keystream) {
     }
 
     keystreamString.push_back(c);
-
-    i += 8;
   }
   return keystreamString;
 }
