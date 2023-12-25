@@ -1,3 +1,5 @@
+#include <format>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -12,7 +14,7 @@ class BlockCipher {
     return expanded_key;
   }
 
-  string stringify_key(vector<bool> expanded_key) {
+  string bools_to_string(vector<bool> expanded_key) {
     string key_string;
     for (int i = 0; i < expanded_key.size(); i += 8) {
       unsigned char c = 0b0;
@@ -49,14 +51,27 @@ public:
   }
 
   string encrypt(string plaintext) {
-    string key_string = stringify_key(expand_key(plaintext.length()));
+    vector<bool> expanded_key =
+        expand_key(plaintext.length() * sizeof(plaintext[0]) * 8);
+    vector<bool> plaintext_bools = string_to_bools(plaintext);
 
-    string xor_str;
-    for (int i = 0; i < plaintext.length(); i++) {
-      // TODO: shift 4 (or any arbitrary number) bits at a time
-      xor_str.push_back((plaintext[i] ^ key_string[i]) << 1);
+    // xor
+    for (int i = 0; i < plaintext_bools.size(); i++) {
+      plaintext_bools[i] = expanded_key[i] != plaintext_bools[i];
     }
 
-    return xor_str;
+    // >>_4
+    for (int i = 0; i < plaintext_bools.size();) {
+      bool temp = plaintext_bools[i];
+      plaintext_bools[i] = plaintext_bools[i + 3];
+      i++;
+      for (int _j = 1; _j < 4; _j++, i++) {
+        bool temp2 = plaintext_bools[i];
+        plaintext_bools[i] = temp;
+        temp = temp2;
+      }
+    }
+
+    return bools_to_string(plaintext_bools);
   }
 };
