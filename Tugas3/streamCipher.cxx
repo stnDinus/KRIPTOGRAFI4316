@@ -18,6 +18,16 @@ string streamCipher(string keystream);
 int main(int argc, char *argv[]) {
   // NILAI DEFAULT
   args["-i"] = "VAR";  // text input (plain teks / cipher teks)
+                       // input-input lain dengan output ascii terbaca:
+                       // 1. "STR"
+                       // 2. "FOO"
+                       // 3. "OUT"
+                       // 4. "C++"
+                       // 5. "CXX"
+                       // 6. "XOR"
+                       // 7. "NOT"
+                       // 8. "NOR"
+                       // 9. "FOR"
   args["-s"] = "0011"; // seed untuk keystream
 
   if (!argsIsValid(argc, argv)) {
