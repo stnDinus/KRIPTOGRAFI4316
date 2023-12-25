@@ -6,6 +6,7 @@ using namespace std;
 string bools_to_str(vector<bool> bools);
 vector<bool> str_to_bools(string input);
 void shift_right_4(vector<bool> *bools);
+void shift_left_4(vector<bool> *bools);
 
 class BlockCipher {
   vector<bool> expand_key(int length) {
@@ -74,6 +75,19 @@ void shift_right_4(vector<bool> *bools) {
     (*bools)[i] = (*bools)[i + 3];
     i++;
     for (int _j = 1; _j < 4; _j++, i++) {
+      bool temp2 = (*bools)[i];
+      (*bools)[i] = temp;
+      temp = temp2;
+    }
+  }
+}
+
+void shift_left_4(vector<bool> *bools) {
+  for (int i = bools->size() - 1; i >= 0;) {
+    bool temp = (*bools)[i];
+    (*bools)[i] = (*bools)[i - 3];
+    i--;
+    for (int _j = 1; _j < 4; _j++, i--) {
       bool temp2 = (*bools)[i];
       (*bools)[i] = temp;
       temp = temp2;
