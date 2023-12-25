@@ -5,6 +5,8 @@
 
 using namespace std;
 
+void shift_right_4(vector<bool> *bools);
+
 class BlockCipher {
   vector<bool> expand_key(int length) {
     vector<bool> expanded_key;
@@ -60,18 +62,21 @@ public:
       plaintext_bools[i] = expanded_key[i] != plaintext_bools[i];
     }
 
-    // >>_4
-    for (int i = 0; i < plaintext_bools.size();) {
-      bool temp = plaintext_bools[i];
-      plaintext_bools[i] = plaintext_bools[i + 3];
-      i++;
-      for (int _j = 1; _j < 4; _j++, i++) {
-        bool temp2 = plaintext_bools[i];
-        plaintext_bools[i] = temp;
-        temp = temp2;
-      }
-    }
+    shift_right_4(&plaintext_bools);
 
     return bools_to_string(plaintext_bools);
   }
 };
+
+void shift_right_4(vector<bool> *bools) {
+  for (int i = 0; i < bools->size();) {
+    bool temp = (*bools)[i];
+    (*bools)[i] = (*bools)[i + 3];
+    i++;
+    for (int _j = 1; _j < 4; _j++, i++) {
+      bool temp2 = (*bools)[i];
+      (*bools)[i] = temp;
+      temp = temp2;
+    }
+  }
+}
