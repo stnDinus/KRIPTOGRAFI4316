@@ -35,13 +35,15 @@ int main(int argc, char *argv[]) {
   }
 
   vector<bool> keystream = generateKeystream();
-  for (int i = 0; i < keystream.size(); i += 4) {
-    for (int i2 = 0; i2 < 4; i2++)
-      cout << keystream[i + i2];
+  cout << "- Key\n";
+  for (int i = 0; i < keystream.size();) {
+    for (int j = 0; j < 4; j++, i++)
+      cout << keystream[i];
     cout << " ";
   }
-  cout << endl;
+  cout << "\n\n";
 
+  cout << "- Output(Plaintext/Ciphertext)\n";
   cout << streamCipher(stringifyKeystream(keystream)) << endl;
 
   return 0;
