@@ -5,6 +5,8 @@
 
 using namespace std;
 
+string bools_to_str(vector<bool> bools);
+vector<bool> str_to_bools(string input);
 void shift_right_4(vector<bool> *bools);
 
 class BlockCipher {
@@ -14,33 +16,6 @@ class BlockCipher {
       expanded_key.push_back(key[i % 4]);
     }
     return expanded_key;
-  }
-
-  string bools_to_string(vector<bool> expanded_key) {
-    string key_string;
-    for (int i = 0; i < expanded_key.size(); i += 8) {
-      unsigned char c = 0b0;
-      for (int j = 0; j < 8; j++) {
-        c |= expanded_key[i + j];
-        if (j != 7)
-          c <<= 1;
-      }
-      key_string.push_back(c);
-    }
-    return key_string;
-  }
-
-  vector<bool> string_to_bools(string input) {
-    vector<bool> bools;
-    for (int i = input.size() - 1; i >= 0; i--) {
-      for (int _j = 0; _j < sizeof(input[i]); _j++) {
-        for (int _k = 0; _k < 8; _k++) {
-          bools.insert(bools.begin(), input[i] & 0b00000001);
-          input[i] >>= 1;
-        }
-      }
-    }
-    return bools;
   }
 
 public:
@@ -55,7 +30,7 @@ public:
   string encrypt(string plaintext) {
     vector<bool> expanded_key =
         expand_key(plaintext.length() * sizeof(plaintext[0]) * 8);
-    vector<bool> plaintext_bools = string_to_bools(plaintext);
+    vector<bool> plaintext_bools = str_to_bools(plaintext);
 
     // xor
     for (int i = 0; i < plaintext_bools.size(); i++) {
@@ -64,9 +39,36 @@ public:
 
     shift_right_4(&plaintext_bools);
 
-    return bools_to_string(plaintext_bools);
+    return bools_to_str(plaintext_bools);
   }
 };
+
+string bools_to_str(vector<bool> bools) {
+  string string;
+  for (int i = 0; i < bools.size(); i += 8) {
+    unsigned char c = 0b0;
+    for (int j = 0; j < 8; j++) {
+      c |= bools[i + j];
+      if (j != 7)
+        c <<= 1;
+    }
+    string.push_back(c);
+  }
+  return string;
+}
+
+vector<bool> str_to_bools(string input) {
+  vector<bool> bools;
+  for (int i = input.size() - 1; i >= 0; i--) {
+    for (int _j = 0; _j < sizeof(input[i]); _j++) {
+      for (int _k = 0; _k < 8; _k++) {
+        bools.insert(bools.begin(), input[i] & 0b00000001);
+        input[i] >>= 1;
+      }
+    }
+  }
+  return bools;
+}
 
 void shift_right_4(vector<bool> *bools) {
   for (int i = 0; i < bools->size();) {
